@@ -3,7 +3,7 @@ import { Model, Types } from 'mongoose';
 // type or interface
 export type TUserName = {
   firstName: string;
-  middleName?: string;
+  middleName: string;
   lastName: string;
 };
 
@@ -38,6 +38,7 @@ export type TStudent = {
   guardian: TGuardian;
   localGuardian: TLocalGuardian;
   profileImg?: string;
+  admissionSemester: Types.ObjectId;
   isDeleted: boolean;
 };
 

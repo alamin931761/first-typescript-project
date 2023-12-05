@@ -45,6 +45,7 @@ const getASingleAcademicSemester = catchAsync(async (req, res) => {
 // update a academic semester
 const updateAnAcademicSemester = catchAsync(async (req, res) => {
   const { semesterId } = req.params;
+  console.log(req.body);
   const result = await AcademicSemesterServices.updateAnAcademicSemesterFromDB(
     semesterId,
     req.body,
