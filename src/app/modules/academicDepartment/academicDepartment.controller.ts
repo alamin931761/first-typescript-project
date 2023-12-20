@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
-import sendResponse from '../../utils/sendResponse';
 import { AcademicDepartmentServices } from './academicDepartment.service';
+import sendResponse from '../../utils/sendResponse';
 
 const createAcademicDepartment = catchAsync(async (req, res) => {
   const result =
@@ -43,7 +43,7 @@ const getSingleAcademicDepartment = catchAsync(async (req, res) => {
 });
 
 const updateAcademicDepartment = catchAsync(async (req, res) => {
-  const { facultyId: departmentId } = req.params;
+  const { departmentId } = req.params;
   const result =
     await AcademicDepartmentServices.updateAcademicDepartmentFromDB(
       departmentId,
