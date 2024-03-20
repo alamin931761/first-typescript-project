@@ -2,12 +2,14 @@ import { Router } from 'express';
 import { AdminControllers } from './admin.controller';
 import validateRequest from '../../middlewares/validateRequest';
 import { AdminValidations } from './admin.validation';
+import auth from '../../middlewares/auth';
+import { USER_ROLE } from '../user/user.constant';
 
 const router = Router();
 
-router.get('/', AdminControllers.getAllAdmins);
+router.get('/', auth(USER_ROLE.admin), AdminControllers.getAllAdmins);
 
-router.get('/:id', AdminControllers.getSingleAdmin);
+router.get('/:id', auth(USER_ROLE.admin), AdminControllers.getSingleAdmin);
 
 router.patch(
   '/:id',

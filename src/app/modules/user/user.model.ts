@@ -1,9 +1,9 @@
 import { Schema, model } from 'mongoose';
-import { TUser } from './user.interface';
+import { TUser, UserModel } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
 
-const userSchema = new Schema<TUser>(
+const userSchema = new Schema<TUser, UserModel>(
   {
     id: {
       type: String,
@@ -13,6 +13,15 @@ const userSchema = new Schema<TUser>(
     password: {
       type: String,
       required: true,
+      select: 0,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    passwordChangedAt: {
+      type: Date,
     },
     needsPasswordChange: {
       type: Boolean,
@@ -53,4 +62,27 @@ userSchema.post('save', function (doc, next) {
   next();
 });
 
-export const User = model<TUser>('User', userSchema);
+// checking if the user is exist
+userSchema.statics.isUserExistsByCustomId = async function (id: string) {
+  return await User.findOne({ id }).select('+password');
+};
+
+// checking if the password is correct
+userSchema.statics.isPasswordMatched = async function (
+  plainTextPassword,
+  hashedPassword,
+) {
+  return await bcrypt.compare(plainTextPassword, hashedPassword);
+};
+
+userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
+  passwordChangedTimestamp,
+  jwtIssuedTimestamp,
+) {
+  const passwordChangedTime =
+    new Date(passwordChangedTimestamp).getTime() / 1000;
+
+  return passwordChangedTime > jwtIssuedTimestamp;
+};
+
+export const User = model<TUser, UserModel>('User', userSchema);

@@ -12,7 +12,7 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
   // //  single field search
   // // {email: {$regex: query.searchTerm, $options: 'i'}}
   // // {"name.firstName": {$regex: query.searchTerm, $options: 'i'}}
-  // search
+  // //search
   // let searchTerm = '';
   // if (query?.searchTerm) {
   //   searchTerm = query?.searchTerm as string;
@@ -23,7 +23,7 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
   //     [field]: { $regex: searchTerm, $options: 'i' },
   //   })),
   // });
-  // filtering
+  // //filtering;
   // const excludeFields = [
   //   'searchTerm',
   //   'sort',
@@ -64,7 +64,7 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
   // // field limiting
   // // fields: 'name,email' --> fields: 'name email'
   // let fields = '-__v';
-  // if (fields) {
+  // if (query.fields) {
   //   fields = (query.fields as string).split(',').join(' ');
   // }
   // const fieldQuery = await limitQuery.select(fields);
@@ -87,7 +87,6 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
     .sort()
     .paginate()
     .fields();
-
   const result = await studentQuery.modelQuery;
   return result;
 };
